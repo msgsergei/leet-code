@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LeetCodeRunner.Infrastructure
 {
     internal static class TestDataGenerator
-    {
+    {    
         public static int[] ArrayInt(int seed, int length, int minValue = int.MinValue, int maxValue = int.MaxValue)
         {
             Random rnd = new Random(seed);
