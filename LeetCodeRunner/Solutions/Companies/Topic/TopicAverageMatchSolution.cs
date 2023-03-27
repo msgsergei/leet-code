@@ -9,7 +9,39 @@ namespace LeetCodeRunner.Solutions.Companies.Topic
 {
     internal class TopicAverageMatchSolution : AbstractSolution<TopicAverageMatchSolution.INPUT, int>
     {
-        int solution(int[] A, int S)
+        int solution_Optimized(int[] A, int S)
+        {
+            int totalCount = 0;
+            int tempSum = 0;
+
+            Dictionary<int, int> sumOccurs = new Dictionary<int, int>();
+
+            for (int i = 0; i < A.Length; i++)
+            {
+                // Make 'chart' with median around X axis
+                tempSum += (A[i] - S);
+
+                // sum[0...i] == 0
+                if (tempSum == 0)
+                {
+                    totalCount++;
+                }
+
+                if (sumOccurs.ContainsKey(tempSum))
+                {
+                    totalCount += sumOccurs[tempSum];
+                    sumOccurs[tempSum]++;
+                }
+                else
+                {
+                    sumOccurs.Add(tempSum, 1);
+                }
+            }
+
+            return totalCount;
+        }
+
+        int solution_Straight(int[] A, int S)
         {
             int result = 0;
             for (int i = 0; i < A.Length; i++)
@@ -31,7 +63,7 @@ namespace LeetCodeRunner.Solutions.Companies.Topic
 
         protected override IEnumerable<SolutionTestCase<INPUT, int>> GetTestCases()
         {
-            return new SolutionTestCase<INPUT, int>[]
+            var inputCases = new SolutionTestCase<INPUT, int>[]
             {
                 new SolutionTestCase<INPUT, int>()
                 {
@@ -39,10 +71,36 @@ namespace LeetCodeRunner.Solutions.Companies.Topic
                 },
                 new SolutionTestCase<INPUT, int>()
                 {
+                    Input = new INPUT(TestDataGenerator.ArrayInt(555, 6000, -100000, 100000), 546),
+                },
+                new SolutionTestCase<INPUT, int>()
+                {
                     Input = new INPUT(new int[] { 2, 2 }, 2),
-                    ExpectedResult = 3
+                },
+                new SolutionTestCase<INPUT, int>()
+                {
+                    Input = new INPUT(new int[] { -10, 10 }, 0),
+                },
+                new SolutionTestCase<INPUT, int>()
+                {
+                    Input = new INPUT(new int[] { -10, 10 }, 5),
+                },
+                new SolutionTestCase<INPUT, int>()
+                {
+                    Input = new INPUT(new int[] { 1 }, 2),
+                },
+                new SolutionTestCase<INPUT, int>()
+                {
+                    Input = new INPUT(new int[] { 1 }, 1),
                 }
             };
+
+            foreach (var c in inputCases)
+            {
+                c.ExpectedResult = solution_Straight(c.Input.A, c.Input.S);
+            }
+
+            return inputCases;
         }
 
         #region Helpers & Input
@@ -52,14 +110,22 @@ namespace LeetCodeRunner.Solutions.Companies.Topic
             protected virtual bool PrintMembers(StringBuilder stringBuilder)
             {
                 stringBuilder.AppendLine();
-                stringBuilder.AppendLine($"A = [{string.Join(", ", A)}]");
+                const int limit = 30;
+                if (A.Length >= limit)
+                {
+                    stringBuilder.AppendLine($"A = [{string.Join(", ", A.Take(limit))}, ... <skipped: {A.Length - limit} items>]");
+                }
+                else
+                {
+                    stringBuilder.AppendLine($"A = [{string.Join(", ", A)}]");
+                }
                 stringBuilder.AppendLine($"S = {S}");
                 return true;
             }
         }
 
         protected override bool IsMatch(int v1, int v2) => v1 == v2;
-        protected override int RunTestCase(INPUT data) => solution(data.A, data.S);
+        protected override int RunTestCase(INPUT data) => solution_Optimized(data.A, data.S);
 
         #endregion
     }
