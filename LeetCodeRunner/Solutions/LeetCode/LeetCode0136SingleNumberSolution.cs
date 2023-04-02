@@ -2,7 +2,7 @@
 
 namespace LeetCodeRunner.Solutions.LeetCode
 {
-	internal class LeetCode136SingleNumberSolution : AbstractSolution<LeetCode136SingleNumberSolution.SolutionInput, int>
+	internal class LeetCode0136SingleNumberSolution : AbstractSolution<LeetCode0136SingleNumberSolution.SolutionInput, int>
 	{
 		public int SingleNumber(int[] nums)
 		{

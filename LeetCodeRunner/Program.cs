@@ -4,4 +4,4 @@ using LeetCodeRunner.Solutions.LeetCode;
 
 /* Run Solutions */
 
-SolutionRunner.Run<LeetCode136SingleNumberSolution>();
+SolutionRunner.Run<LeetCode0013RomanToIntegerSolution>();
