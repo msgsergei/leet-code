@@ -4,4 +4,4 @@ using LeetCodeRunner.Solutions.LeetCode;
 
 /* Run Solutions */
 
-SolutionRunner.Run<LeetCode0013RomanToIntegerSolution>();
+SolutionRunner.Run<LeetCode1926NearestExitFromEntranceMaze>();
